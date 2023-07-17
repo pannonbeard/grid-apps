@@ -184,6 +184,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
 
         filename = $('print-filename').value;
         form.append("file", getBlob(), filename+"."+fileext);
+        form.append("print", true); // Adding Print on upload
         ajax.onreadystatechange = function() {
             if (ajax.readyState === 4) {
                 let status = ajax.status;
@@ -409,7 +410,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
     }
 
     function download() {
-        filename = $('print-filename').value;
+        filename = $('print-filename').value; 
         api.util.download(gcode, filename + "." + fileext);
         // saveAs(getBlob(), filename + "." + fileext);
     }
@@ -639,7 +640,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
                 $('oph1nt').style.display = 'none';
                 $('send-to-gridhost').style.display = 'none';
             }
-            octo_host.value = local['octo-host'] || '';
+            octo_host.value = local['octo-host'] || location.origin;
             octo_apik.value = local['octo-apik'] || '';
         } catch (e) { console.log(e) }
 
