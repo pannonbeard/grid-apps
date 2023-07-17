@@ -192,6 +192,7 @@ gapp.register("kiri.init", [], (root, exports) => {
         control.dark = ui.dark.checked;
         control.exportOcto = ui.exportOcto.checked;
         control.exportKlip = ui.exportKlip.checked;
+        control.exportDownload = ui.exportDownload.checked;
         control.exportGhost = ui.exportGhost.checked;
         control.exportLocal = ui.exportLocal.checked;
         control.exportThumb = ui.exportThumb.checked;
@@ -1817,6 +1818,7 @@ gapp.register("kiri.init", [], (root, exports) => {
             exportGhost:      uc.newBoolean(`Grid:Host`, booleanSave, {title:LANG.op_exgh_l}),
             exportOcto:       uc.newBoolean(`OctoPrint`, booleanSave, {title:LANG.op_exop_l}),
             exportKlip:       uc.newBoolean(`Klipper`, booleanSave, {title:LANG.op_exop_l}),
+            exportDownload:       uc.newBoolean(`Gcode`, booleanSave, {title:LANG.op_exop_l}),
             exportThumb:      uc.newBoolean(`Thumbnail`, booleanSave, {modes:FDM}),
             exportPreview:    uc.newBoolean(`Code Preview`, booleanSave),
 

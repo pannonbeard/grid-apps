@@ -749,6 +749,7 @@ const conf = exports({
             spaceRandoX: false,
             spaceLayout: 1,
             units: "mm",
+            exportDownload: true,
             exportOcto: false,
             exportKlip: false,
             exportGhost: false,
