@@ -36,6 +36,17 @@ function exportFile(options) {
     }
 }
 
+// Change number to byte notation
+function numToBytes(num){
+    let notions = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+    let i = 0
+    while (num >= 1024){
+        num = num / 1024
+        i += 1;
+    }
+    return `${num.toFixed(2)} ${notions[i]}`
+}
+
 function callExport(callback, mode, names) {
     let alert = api.feature.work_alerts ? api.show.alert("Exporting") : null;
     let gcode = [];
@@ -459,6 +470,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
         let octo = set.controller.exportOcto && MODE !== MODES.CAM;
         let klip = set.controller.exportKlip && MODE !== MODES.CAM;
         let ghost = set.controller.exportGhost;
+        let down_load = set.controller.exportDownload;
         let local = set.controller.exportLocal;
         let preview = set.controller.exportPreview;
         $('code-preview-head').style.display = preview ? '' : 'none';
@@ -467,7 +479,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
         $('print-filament-head').style.display = fdm ? '' : 'none';
         $('print-filament-info').style.display = fdm ? '' : 'none';
         $('print-filename').value = filename;
-        $('print-filesize').value = util.comma(info.bytes);
+        $('print-filesize').value = numToBytes(info.bytes); //util.comma(info.bytes);
         $('print-filament').value = Math.round(info.distance);
         calcTime();
         if (fdm) {
@@ -623,6 +635,10 @@ function exportGCodeDialog(gcode, sections, info, names) {
                 })
             };
         }
+
+        // download setup 
+        $('export-downloadhead').style.display = down_load ? '' : 'none';
+        $('export-download').style.display = down_load ? '' : 'none';
 
         // octoprint setup
         $('send-to-octohead').style.display = octo ? '' : 'none';
