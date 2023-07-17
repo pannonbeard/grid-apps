@@ -17,8 +17,8 @@
     <div><textarea id="code-preview-textarea"></textarea></div>
 </div>
 
-<div class="header"><label>gcode</label></div>
-<div class="f-row box">
+<div class="header" style="display: none"><label>gcode</label></div>
+<div class="f-row box" style="display: none">
     <button id="print-download" class="grow">download</button>
     <button id="print-palette" class="grow">palette</button>
     <button id="print-zip" class="grow">zip file</button>
@@ -34,6 +34,17 @@
         <button id="print-octoprint">send</button>
     </div>
     <div id="oph1nt"><label class="hint"><a href="http://docs.octoprint.org/en/master/api/general.html?highlight=cors#cross-origin-requests" target="_help">CORS support</a> must be enabled in API settings</label></div>
+</div>
+
+<div id="send-to-klipperhead" class="header"><label>Klipper</label></div>
+<div id="send-to-klipper" class="f-col box">
+    <div class="grow f-row">
+        <div class="f-col grow">
+            <div id="ophost"><label>host</label><input id="klipper-host" size="20" placeholder="http(s)://host:port" /></div>
+            <div id="opapik"><label>key</label><input id="klipper-apik" size="20" /></div>
+        </div>
+        <button id="print-klipper">send</button>
+    </div>
 </div>
 
 <div id="send-to-hosthead" class="header"><label>grid:host</label></div>

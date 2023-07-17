@@ -182,6 +182,8 @@ function exportGCodeDialog(gcode, sections, info, names) {
         local['octo-host'] = host.trim();
         local['octo-apik'] = apik.trim();
 
+        let host_machine = 'http://' + location.hostname
+
         filename = $('print-filename').value;
         form.append("file", getBlob(), filename+"."+fileext);
         form.append("print", true); // Adding Print on upload
@@ -190,8 +192,10 @@ function exportGCodeDialog(gcode, sections, info, names) {
                 let status = ajax.status;
                 stats.add(`ua_${api.mode.get_lower()}_print_octo_${status}`);
                 if (status >= 200 && status < 300) {
-                    api.modal.hide();
+                    // api.modal.hide();
+                    location.href = host_machine
                 } else {
+                    location.href = host_machine
                     api.show.alert("octoprint error\nstatus: "+status+"\nmessage: "+ajax.responseText);
                 }
                 api.show.progress(0);
@@ -453,6 +457,7 @@ function exportGCodeDialog(gcode, sections, info, names) {
         let set = api.conf.get();
         let fdm = MODE === MODES.FDM;
         let octo = set.controller.exportOcto && MODE !== MODES.CAM;
+        let klip = set.controller.exportKlip && MODE !== MODES.CAM;
         let ghost = set.controller.exportGhost;
         let local = set.controller.exportLocal;
         let preview = set.controller.exportPreview;
@@ -640,8 +645,33 @@ function exportGCodeDialog(gcode, sections, info, names) {
                 $('oph1nt').style.display = 'none';
                 $('send-to-gridhost').style.display = 'none';
             }
-            octo_host.value = local['octo-host'] || location.origin;
+            octo_host.value = local['octo-host'] || `http://${location.hostname}`;
             octo_apik.value = local['octo-apik'] || '';
+        } catch (e) { console.log(e) }
+
+        // klipper setup
+        $('send-to-klipperhead').style.display = klip ? '' : 'none';
+        $('send-to-klipper').style.display = klip ? '' : 'none';
+        if (klip) try {
+            $('print-klipper').onclick = sendto_octoprint;
+            octo_host = $('klipper-host');
+            octo_apik = $('klipper-apik');
+            if (MODE === MODES.CAM) {
+                $('send-to-klipperhead').style.display = 'none';
+                $('send-to-klipper').style.display = 'none';
+            } else {
+                $('send-to-klipperhead').style.display = '';
+                $('send-to-klipper').style.display = '';
+            }
+            // hide octoprint when hard-coded in the url
+            if (api.const.OCTO) {
+                $('ophost').style.display = 'none';
+                $('opapik').style.display = 'none';
+                $('oph1nt').style.display = 'none';
+                $('send-to-gridhost').style.display = 'none';
+            }
+            octo_host.value = local['klipper-host'] || `http://${location.hostname}`;
+            octo_apik.value = local['klipper-apik'] || '';
         } catch (e) { console.log(e) }
 
         // grid:host setup

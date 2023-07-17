@@ -750,6 +750,7 @@ const conf = exports({
             spaceLayout: 1,
             units: "mm",
             exportOcto: false,
+            exportKlip: false,
             exportGhost: false,
             exportLocal: false,
             exportThumb: false,
