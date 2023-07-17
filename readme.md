@@ -101,3 +101,50 @@ A script include that injects a web worker into the page that will asynchronousl
 
 * https://grid.space/kiri/engine.html
 * https://grid.space/kiri/frame.html
+
+## Deploying on Klipper Machine
+You'll first want to check you are up to date
+```
+sudo apt update
+sudo apt upgrade
+```
+
+Make sure you have a verion of node installed that will work with this app. Example:
+```
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+```
+
+Pull down the repository into the root directory
+```
+cd ~/
+git clone <enter repo here>
+cd grid-apps
+```
+
+Install `gs-app-server`
+```
+sudo npm install -g @gridspace/app-server
+```
+
+Install PM2 in order to run the app on load
+```
+sudo npm install -g pm2
+```
+
+While in the grid-apps folder run the following pm2 start script to start kiri in the background
+
+```
+pm2 --name kiri start gs-app-server -- --debug
+```
+
+To have the app run on start up run the following, and run the command it tells you to to setup systemctl
+```
+pm2 startup
+```
+
+Save the current running apps with 
+```
+pm2 save
+```
+
+### And tada!!! It should now be up and running at <\Your Klipper IP>:8080/kiri
