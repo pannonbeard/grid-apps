@@ -117,7 +117,7 @@ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 Pull down the repository into the root directory
 ```
 cd ~/
-git clone <enter repo here> grid-apps
+git clone git@github.com:pannonbeard/klipperized-grid-apps.git grid-apps
 cd grid-apps
 ```
 
