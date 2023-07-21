@@ -2476,7 +2476,7 @@ gapp.register("kiri.init", [], (root, exports) => {
             return lbl;
         }
 
-        for (let mode of ["fdm","sla","cam","laser"]) {
+        for (let mode of ["fdm"/*,"sla","cam","laser"*/]) {
             if (api.feature.modes.indexOf(mode) >= 0) {
                 $(`mode-${mode}`).appendChild(mksvg(icons[mode]));
             } else {
@@ -2816,10 +2816,10 @@ gapp.register("kiri.init", [], (root, exports) => {
         $('view-top').onclick = space.view.top;
         $('view-home').onclick = space.view.home;
         $('view-clear').onclick = api.platform.clear;
-        $('mode-fdm').onclick = () => { api.mode.set('FDM'); api.space.set_focus() };
+        $('mode-fdm').onclick = () => { api.mode.set('FDM'); api.space.set_focus() }; /*
         $('mode-sla').onclick = () => { api.mode.set('SLA'); api.space.set_focus() };
         $('mode-cam').onclick = () => { api.mode.set('CAM'); api.space.set_focus() };
-        $('mode-laser').onclick = () => { api.mode.set('LASER'); api.space.set_focus() };
+        $('mode-laser').onclick = () => { api.mode.set('LASER'); api.space.set_focus() }; */
         $('unrotate').onclick = () => {
             api.widgets.for(w => w.unrotate());
             api.selection.update_info();
