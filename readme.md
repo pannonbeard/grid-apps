@@ -114,11 +114,12 @@ Make sure you have a verion of node installed that will work with this app. Exam
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 ```
 
-Pull down the repository into the root directory
+Pull down the repository into the root directory and install dependencies
 ```
 cd ~/
 git clone git@github.com:pannonbeard/klipperized-grid-apps.git grid-apps
 cd grid-apps
+npm i
 ```
 
 Install `gs-app-server`
