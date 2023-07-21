@@ -148,3 +148,10 @@ pm2 save
 ```
 
 ### And tada!!! It should now be up and running at <\Your Klipper IP>:8080/kiri
+
+
+# Future goals
+- Store settings/profiles on device instead of in browser
+- Add view for current state of printer (might just go directly to Fluidd/Mainsail UI)
+- After send to Klipper bring up page directly to view current printer info
+- Stylize UI and how settings appear
