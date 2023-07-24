@@ -400,13 +400,16 @@ function saveUserPrinter(req, res, next){
         req.on('data', data => {
             printer = JSON.parse(data.toString())
             let fileName = printer.name.split(' ').join('.')
-            fs.writeFile(`${dir}/src/kiri-user-printer-profiles/${printer.type}/${fileName}`, JSON.stringify(printer.config), (err) => { console.log(err)} )
-
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            })
-
-            res.end(JSON.stringify({ status: 200 }))
+            let returnData = {}
+            try {
+                fs.writeFileSync(`${dir}/src/kiri-user-printer-profiles/${fileName}`, JSON.stringify(printer.config), (err) => { } )
+                returnData['status'] = `${printer.name} updated`
+            } catch(err){
+                res.writeHead(500, 'Missing Key Folder', {})
+                returnData['error'] = 'Missing Key Folder'
+            }
+            
+            res.end(JSON.stringify(returnData))
         })  
     }
     next()

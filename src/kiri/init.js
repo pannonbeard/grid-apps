@@ -683,6 +683,7 @@ gapp.register("kiri.init", [], (root, exports) => {
                 api.conf.save();
                 api.conf.update();
                 api.event.settings();
+                api.event.emit('device.save.to.disk')
             };
 
         if (name) {
@@ -1020,6 +1021,37 @@ gapp.register("kiri.init", [], (root, exports) => {
         platform.update_origin();
     }
 
+    api.event.on('device.save.to.disk', saveToDisk)
+
+    function saveToDisk(){
+        let device = {...api.conf.get().device};
+        
+        let mode = api.mode.get(),
+            s = settings(),
+            profiles = s.sproc[mode]
+
+        let currentProfiles = []
+
+        Object.keys(profiles).forEach(key => {
+            if(key != 'default'){
+                currentProfiles.push(profiles[key])
+            }
+        })
+
+        device.profiles = currentProfiles
+
+        let printer = { name: device.deviceName, type: mode, config: device}
+        
+        fetch('/api/save_profile', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(printer)
+        }).then(data => data.json())
+          .then(console.log)
+    }
+
     function renderDevices(devices) {
         let selectedIndex = -1,
             selected = api.device.get(),
@@ -1051,6 +1083,15 @@ gapp.register("kiri.init", [], (root, exports) => {
             showDevices();
             api.modal.hide();
         };
+
+        ui.deviceSaveToDisk.onclick = function(){
+            api.event.emit('device.save.to.disk');
+            api.function.clear();
+            api.conf.save();
+            showDevices();
+            api.modal.hide();
+        }
+
         ui.deviceAdd.onclick = function() {
             api.function.clear();
             cloneDevice();
@@ -1665,6 +1706,7 @@ gapp.register("kiri.init", [], (root, exports) => {
             deviceDelete:       $('device-del'),
             deviceExport:       $('device-exp'),
             deviceSave:         $('device-save'),
+            deviceSaveToDisk:   $('device-save-to-disk'),
 
             toolsSave:          $('tools-save'),
             toolsClose:         $('tools-close'),

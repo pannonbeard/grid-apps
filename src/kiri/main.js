@@ -726,9 +726,13 @@ gapp.register("kiri.main", [], (root, exports) => {
         let current = settings.get();
         let name = e.target.getAttribute("del");
         delete current.sproc[getMode()][name];
+        
         updateProcessList();
         api.conf.save();
         triggerSettingsEvent();
+
+        api.event.emit('device.save.to.disk')
+        console.log(`removed ${name}`)
     }
 
     function updateProcessList() {
