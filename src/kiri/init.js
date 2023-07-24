@@ -2676,6 +2676,7 @@ gapp.register("kiri.init", [], (root, exports) => {
 
         // api.space.set_focus();
 
+
         // call driver initializations, if present
         Object.values(kiri.driver).forEach(driver => {
             if (driver.init) try {
@@ -2766,6 +2767,12 @@ gapp.register("kiri.init", [], (root, exports) => {
 
             // setup default mode and enable mode locking, if set
             api.mode.set(SETMODE || STARTMODE || current.mode, SETMODE);
+
+            if(Object.keys(userDevices).length > 0){
+                settings().userDevices = userDevices
+                settings().devices = userDevices
+                console.log(settings())
+            }
 
             // fill device list
             updateDeviceList();
@@ -3077,6 +3084,8 @@ gapp.register("kiri.init", [], (root, exports) => {
             });
             api.event.on("device.save", editDone);
         }
+
+        
     }
 
     // update static html elements with language overrides

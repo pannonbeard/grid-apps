@@ -419,6 +419,7 @@ const script = {
     kiri : [
         "@devices",
         "@icons",
+        "@userDevices",
         "kiri/ui",
         "&main/kiri",
         "&kiri/lang-en"
@@ -620,9 +621,20 @@ function generateDevices() {
     synth.devices = `self.devices = ${JSON.stringify(devs)};`;
 }
 
+function generateUserDevices(){
+    let root = `${dir}/src/kiri-user-printer-profiles`;
+    let devs = {};
+
+    fs.readdirSync(`${root}`).forEach(device => {
+        devs[device] = JSON.parse(fs.readFileSync(`${root}/${device}`));
+    });
+    synth.userDevices = `self.userDevices = ${JSON.stringify(devs)};`;
+}
+
 function prepareScripts() {
     generateIcons();
     generateDevices();
+    generateUserDevices();
     for (let key of Object.keys(script)) {
         code[key] = concatCode(script[key]);
     }
@@ -659,6 +671,7 @@ function concatCode(array) {
             'document.head.appendChild(s);',
             '} load_next(); })();'
         ].join('\n'));
+        
         inject.forEach(key => {
             code.push(synth[key]);
         });
