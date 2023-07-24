@@ -6,3 +6,5 @@ package-lock.json
 app.json
 logs/*
 data/*
+
+src/kiri-user-printer-profiles

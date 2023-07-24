@@ -277,6 +277,9 @@ function init(mod) {
         }
     }
 
+    // handle save my scripts
+    mod.add(saveUserPrinter)
+
     // runs after module loads / injects
     prepareScripts();
 };
@@ -388,6 +391,25 @@ function initModule(mod, file, dir) {
             mod.on.exit(fn);
         }
     });
+}
+
+// Saving User Print Profile To Disk
+function saveUserPrinter(req, res, next){
+    if(req.app.path == '/api/save_profile'){
+        let printer = { name: '', type: 'fdm', config: {} }
+        req.on('data', data => {
+            printer = JSON.parse(data.toString())
+            let fileName = printer.name.split(' ').join('.')
+            fs.writeFile(`${dir}/src/kiri-user-printer-profiles/${printer.type}/${fileName}`, JSON.stringify(printer.config), (err) => { console.log(err)} )
+
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            })
+
+            res.end(JSON.stringify({ status: 200 }))
+        })  
+    }
+    next()
 }
 
 const script = {
